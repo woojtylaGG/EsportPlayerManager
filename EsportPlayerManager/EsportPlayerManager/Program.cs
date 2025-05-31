@@ -1,21 +1,13 @@
-﻿using Avalonia;
-using System;
+﻿using System;
+using EsportPlayerManager.Services;
 
-namespace EsportPlayerManager;
-
-sealed class Program
+class Program
 {
-    // Initialization code. Don't use any Avalonia, third-party APIs or any
-    // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
-    // yet and stuff might break.
-    [STAThread]
-    public static void Main(string[] args) => BuildAvaloniaApp()
-        .StartWithClassicDesktopLifetime(args);
+    static void Main(string[] args)
+    {
+        var connectionString = "Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=Postgres";
+        var databaseService = new DatabaseService(connectionString);
 
-    // Avalonia configuration, don't remove; also used by visual designer.
-    public static AppBuilder BuildAvaloniaApp()
-        => AppBuilder.Configure<App>()
-            .UsePlatformDetect()
-            .WithInterFont()
-            .LogToTrace();
+        databaseService.DisplayTableColumns("players");
+    }
 }

@@ -3,7 +3,11 @@
   <component name="AvaloniaProject">
     <option name="projectPerEditor">
       <map>
+        <entry key="EsportPlayerManager/App.axaml" value="EsportPlayerManager/EsportPlayerManager.csproj" />
         <entry key="EsportPlayerManager/Views/MainWindow.axaml" value="EsportPlayerManager/EsportPlayerManager.csproj" />
+        <entry key="EsportPlayerManager/Views/PlayersView.axaml" value="EsportPlayerManager/EsportPlayerManager.csproj" />
+        <entry key="EsportPlayerManager/Views/TournamentsView.axaml" value="EsportPlayerManager/EsportPlayerManager.csproj" />
+        <entry key="EsportPlayerManager/Views/TrainingView.axaml" value="EsportPlayerManager/EsportPlayerManager.csproj" />
       </map>
     </option>
   </component>
