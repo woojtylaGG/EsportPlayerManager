@@ -1,43 +1,42 @@
 ﻿using System;
-using System.Data;
 using Npgsql;
 
-namespace EsportPlayerManager.Services
+namespace EsportPlayerManager.Services;
+
+public class DatabaseService
 {
-    public class DatabaseService
+    private readonly string _connectionString;
+
+    public DatabaseService(string connectionString)
     {
-        private readonly string _connectionString;
+        _connectionString = connectionString;
+    }
 
-        public DatabaseService(string connectionString)
+    public void AddPlayer(string nickname, string game, int aimSkill, int strategySkill, int reflexSkill, int stressLevel, int fatigueLevel)
+    {
+        using var connection = new NpgsqlConnection(_connectionString);
+
+        try
         {
-            _connectionString = connectionString;
+            connection.Open();
+            using var command = connection.CreateCommand();
+            command.CommandText = @"
+                INSERT INTO Players (Nickname, Game, AimSkill, StrategySkill, ReflexSkill, StressLevel, FatigueLevel)
+                VALUES (@nickname, @game, @aimSkill, @strategySkill, @reflexSkill, @stressLevel, @fatigueLevel)";
+            command.Parameters.AddWithValue("nickname", nickname);
+            command.Parameters.AddWithValue("game", game);
+            command.Parameters.AddWithValue("aimSkill", aimSkill);
+            command.Parameters.AddWithValue("strategySkill", strategySkill);
+            command.Parameters.AddWithValue("reflexSkill", reflexSkill);
+            command.Parameters.AddWithValue("stressLevel", stressLevel);
+            command.Parameters.AddWithValue("fatigueLevel", fatigueLevel);
+
+            command.ExecuteNonQuery();
+            Console.WriteLine("Zawodnik został dodany do bazy danych.");
         }
-
-        public void DisplayTableColumns(string tableName)
+        catch (Exception ex)
         {
-            using var connection = new NpgsqlConnection(_connectionString);
-
-            try
-            {
-                connection.Open();
-                Console.WriteLine($"Połączono z bazą danych. Wyświetlanie kolumn tabeli: {tableName}");
-
-                using var command = connection.CreateCommand();
-                command.CommandText = $"SELECT * FROM {tableName} LIMIT 0";
-                command.CommandType = CommandType.Text;
-
-                using var reader = command.ExecuteReader();
-                Console.WriteLine($"Kolumny tabeli {tableName}:");
-
-                for (int i = 0; i < reader.FieldCount; i++)
-                {
-                    Console.WriteLine(reader.GetName(i));
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Błąd: {ex.Message}");
-            }
+            Console.WriteLine($"Błąd podczas dodawania zawodnika: {ex.Message}");
         }
     }
 }

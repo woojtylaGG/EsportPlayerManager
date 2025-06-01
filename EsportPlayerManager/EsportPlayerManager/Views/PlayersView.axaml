@@ -2,7 +2,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vm="clr-namespace:EsportPlayerManager.ViewModels"
+             mc:Ignorable="d"
+             x:DataType="vm:PlayersViewModel"
              x:Class="EsportPlayerManager.Views.PlayersView">
-    Welcome to Avalonia!
+    <Grid>
+        <ListBox ItemsSource="{Binding Players}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="vm:Player">
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
 </UserControl>

@@ -1,13 +1,19 @@
-﻿using System;
-using EsportPlayerManager.Services;
+﻿using Avalonia;
+using System;
+using EsportPlayerManager;
 
 class Program
 {
-    static void Main(string[] args)
+    // Avalonia entry point
+    [STAThread]
+    public static void Main(string[] args)
     {
-        var connectionString = "Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=Postgres";
-        var databaseService = new DatabaseService(connectionString);
-
-        databaseService.DisplayTableColumns("players");
+        BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
     }
+
+    public static AppBuilder BuildAvaloniaApp()
+        => AppBuilder.Configure<App>()
+            .UsePlatformDetect()
+            .LogToTrace();
 }
+
